@@ -1,0 +1,29 @@
+{
+  "name": "dailytask",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/innocentmilkbox/DailyTask.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/innocentmilkbox/DailyTask/issues"
+  },
+  "homepage": "https://github.com/innocentmilkbox/DailyTask#readme",
+  "dependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "msnodesqlv8": "^3.1.0",
+    "mssql": "^9.1.1"
+  }
+}
