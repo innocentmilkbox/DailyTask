@@ -19,7 +19,7 @@ router.get('/get-all', async (req, res, next) => {
 router.get('/get-by-id/:id', async (req, res, next) => {
     var pool = await sqlConnection;
     // var queryString = 'SELECT * FROM [TaskTypes] WHERE [Id] = ' + req.params.id; //SQL Injection
-    var queryString = 'SELECT * FROM [TaskTypes] WHERE [Id] = @varId';
+    var queryString = 'SELECT * FROM [TaskTypes] WHERE [Id] = @varId';    
     return await pool.request()
     .input('varId', sql.Int, req.params.id)
     .query(queryString, (err, data) => {

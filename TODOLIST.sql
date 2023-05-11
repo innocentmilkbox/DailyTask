@@ -17,9 +17,9 @@ CREATE TABLE TASKS
     Id int primary key Identity,
     UserId int NOT NULL,
     Title nvarchar(100) NOT NULL,
-    Summary nvarchar(100),
-    Note nvarchar(100),
+    Summary nvarchar(MAX),
+    Note nvarchar(MAX),
     TaskDay date,
-    IsDone bit,    
+    -- IsDone bit,    
     TaskStatus int, -- 0: Not Done, 1: Done, 2: Postponed    
 )

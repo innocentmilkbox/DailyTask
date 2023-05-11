@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import {connection as sqlConnection} from './connect.js';
 import { TaskTypeRoute } from './routes/task-types-route.js';
-import { ToDoListUserRoute } from './routes/todolist/index.js';
+import { ToDoList_UserRoute, ToDoList_TaskRoute } from './routes/todolist/index.js';
 // import sql from 'mssql/msnodesqlv8';
 
 const app = express();
@@ -14,10 +14,11 @@ app.get('/', (req, res) => {
     res.send('Hello world');
 })
 
-app.use('/task-types', TaskTypeRoute);
+// app.use('/task-types', TaskTypeRoute);
 
-app.use('/todolist/users/', ToDoListUserRoute);
+app.use('/todolist/users/', ToDoList_UserRoute);
 
+app.use('/todolist/tasks/', ToDoList_TaskRoute);
 
 app.listen(8000, () => {
     console.clear();
