@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
     res.send('Hello world');
 })
 
-// app.use('/task-types', TaskTypeRoute);
+app.use('/task-types', TaskTypeRoute);
 
 app.use('/todolist/users/', ToDoListUserRoute);
 
