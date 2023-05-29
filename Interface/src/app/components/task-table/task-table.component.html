@@ -1,0 +1,24 @@
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <th>#</th>
+        <th>Task</th>        
+        <th>Action</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data; let i = index">
+            <td>
+                <input type="checkbox" [checked]="item.TaskStatus == 1">
+            </td>
+            <td>
+                <s *ngIf="item.TaskStatus == 1">
+                    {{item.Title}}
+                </s>
+                <div *ngIf="item.TaskStatus == 2">{{item.Title + ' (Postponed)'}}</div>
+                <div *ngIf="item.TaskStatus == 0">{{item.Title}}</div>
+            </td>
+            <td>
+                <app-status-task [status]="item.TaskStatus"></app-status-task>
+            </td>
+        </tr>        
+    </tbody>
+</table>

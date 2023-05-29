@@ -1,0 +1,9 @@
+<span>
+    <i *ngIf="status == 0" class="mx-2 fa-regular fa-circle-check" title="Mark As Done"></i>
+    <i *ngIf="status == 1" class="mx-2 fa-solid fa-circle-xmark" title="Mark As Undone"></i>
+    <!-- <i class="mx-2 fa-solid fa-angle-right" title="Move To Next Day"></i> -->
+    <i *ngIf="status == 0" class="mx-2 fa-solid fa-angles-right" title="Move To Another Day"></i>
+    <i class="mx-2 fa-solid fa-copy" title="Copy Task To Another Day"></i>
+    <i *ngIf="status == 0" class="mx-2 fa-regular fa-hand" title="Postpone Task"></i>
+    <i *ngIf="status == 0" class="mx-2 fa-solid fa-trash-can" title="Remove Task"></i>
+</span>
