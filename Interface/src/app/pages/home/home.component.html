@@ -1,8 +1,11 @@
-<h2>HOME PAGE</h2>
-<div class="p-5">
+<div class="px-5 mt-3">
     <div class="row">
-        <div class="col-2">
+        <div class="col-2" style="height: 100vh; border-right: 1px solid lightgray;">
             <div class="d-flex flex-column">
+                <div class="py-2">
+                    <h4>Tasks Management</h4>
+                </div>
+                <hr>
                 <div class="py-2">
                     <span><i class="mr-3 fa-solid fa-list-check"></i>Today Tasks</span>
                 </div>
@@ -21,12 +24,32 @@
             </div>
         </div>
         <div class="col-10">
+            <div class="row">
+                <div class="col-11">
+                    <div class="d-flex justify-content-between my-3">
+                        <div class="d-flex">
+                            <input type="date" style="font-size: 16px; padding: 4px;" [defaultValue]="dateStringForInput" (change)="showDate($event.target)">
+                            <div class="mx-3" style="font-size: 24px; padding: 4px;">
+                                <i class="fas fa-arrow-alt-circle-left mr-2"></i>
+                                <span>
+                                    <i class="fas fa-arrow-alt-circle-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <button (click)="openCreateForm()" class="btn btn-primary">New Task <span><i class="fas fa-plus ml-2"></i></span></button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
             <div class="row position-relative">
                 <div class="col-11">
-                    <app-task-table></app-task-table>                    
+                    <app-task-table [taskDate]="taskDate" #taskTableRef (openTaskDetail)="handleOpenTaskDetail($event)"></app-task-table>                    
                 </div>
-                <div class="col-6 position-absolute" style="right: 0px; background-color: red;" hidden>
-                    <app-task-detail></app-task-detail>
+                <div id="task-detail-block" [@slideInFromRight]="!showDetail ? 'void' : 'visible'" 
+                    class="col-6 position-absolute" 
+                    style="height: 100vh; right: 0px; background-color: white; border-left: 1px solid gray;">
+                    <app-task-detail [taskDetail]="selectedTask" (closeDetail)="handleCloseDetail()" (detailChange)="handleDetailChange($event)"></app-task-detail>
                 </div>
             </div>
         </div>

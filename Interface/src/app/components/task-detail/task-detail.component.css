@@ -1,0 +1,24 @@
+input:disabled, textarea:disabled {
+    border: none;
+    outline: none;
+    background: none;
+    width: 100%;
+    padding: 5px;
+    /* Additional custom styles as needed */
+}
+
+input, textarea{
+    border: none;        
+    background: none;
+    width: 100%;
+    padding: 5px;
+    outline: 1px solid gray;
+    border-radius: 10px;
+}
+
+.fa-edit{
+    cursor: pointer;
+}
+.fa-edit:hover{
+    color: blue !important;
+}

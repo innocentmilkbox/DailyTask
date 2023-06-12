@@ -7,7 +7,7 @@ router.get('/get-all', GetAllTasks);
 
 router.get('/get-all-by-user/:userId', GetTasksByUserId);
 
-router.get('/get-task-by-day/:userId', GetTasksForUserByDate);
+router.get('/get-task-by-date/:userId', GetTasksForUserByDate);
 
 router.get('/get-task-by-id/:id', GetTaskById);
 

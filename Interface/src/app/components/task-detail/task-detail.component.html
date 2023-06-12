@@ -1,1 +1,46 @@
-<p>task-detail works!</p>
+<div *ngIf="taskDetail != undefined" class="p-4">
+    <form autocomplete="off" #taskForm="ngForm" (ngSubmit)="submit(taskForm)">
+        <div class="d-flex justify-content-between">
+            <input style="font-size: 30px;" (blur)="toEdit('title')" [disabled]="!editable.title" type="text" name="task-title" [(ngModel)]="taskDetail!.Title">
+            <i (click)="toEdit('title')" class="fas fa-edit text-secondary m-2"></i>
+        </div>
+        <hr>
+        <div class="d-flex">
+            <div class="mr-3">
+                {{dateString}}
+            </div>        
+            <div>
+                <span *ngIf="taskDetail?.TaskStatus == 2">
+                    <i class="fas fa-hourglass-half mr-1" style="color: darkgray;"></i> <i style="color: darkgray;">Postponed</i>
+                </span>
+                <span *ngIf="taskDetail?.TaskStatus == 1">
+                    <i class="fas fa-check-circle mr-1" style="color: green;"></i> <i style="color: green;">Done</i>
+                </span>
+                <span *ngIf="taskDetail?.TaskStatus == 0">
+                    <i class="fas fa-times-circle mr-1" style="color: red;"></i> <i style="color: red;">Undone</i>
+                </span>
+            </div>
+        </div>
+        <hr>
+        <div style="font-size: 18px; font-style: italic;">--- Summary <span><i class="fas fa-chalkboard ml-1"></i></span></div>
+        <hr>
+        <div class="d-flex justify-content-between">
+            <textarea [disabled]="!editable.summary" (blur)="toEdit('summary')" rows="14" name="task-summary" [(ngModel)]="taskDetail!.Summary"></textarea>
+            <i (click)="toEdit('summary')" class="fas fa-edit text-secondary m-2"></i>
+        </div>
+        <hr>
+        <div style="font-size: 18px; font-style: italic;">--- Note <span><i class="far fa-lightbulb ml-1"></i></span></div> 
+        <hr>
+        <div class="d-flex justify-content-between">
+            <textarea [disabled]="!editable.note" (blur)="toEdit('note')" rows="14" name="task-note"
+                [(ngModel)]="taskDetail!.Note"></textarea>
+            <i (click)="toEdit('note')" class="fas fa-edit text-secondary m-2"></i>
+        </div>
+        <hr>
+        <div class="d-flex" >
+            <button type="submit" class="btn btn-outline-primary mr-3">Save</button>
+            <button type="button" (click)="onClose()" class="btn btn-outline-secondary mr-3">Go Back</button>
+            <button type="button" (click)="onChangeStatus()" class="btn {{taskDetail.TaskStatus == 1 ? 'btn-outline-danger' : 'btn-outline-success'}} mr-3">{{taskDetail.TaskStatus == 1 ? 'Mark As Undone' : 'Mark As Done'}}</button>
+        </div>        
+    </form>
+</div>

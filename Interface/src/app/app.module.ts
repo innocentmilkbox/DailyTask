@@ -9,6 +9,14 @@ import { InfoComponent } from './pages/info/info.component';
 import { TaskButtonComponent } from './components/task-button/task-button.component';
 import { TaskDetailComponent } from './components/task-detail/task-detail.component';
 import { StatusTaskComponent } from './components/status-task/status-task.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TaskService } from './services/task.service';
+import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -22,9 +30,17 @@ import { StatusTaskComponent } from './components/status-task/status-task.compon
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,    
+    ToastrModule.forRoot()    
   ],
-  providers: [],
+  providers: [
+    TaskService,       
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
