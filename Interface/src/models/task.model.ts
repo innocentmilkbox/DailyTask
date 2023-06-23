@@ -28,5 +28,5 @@ export interface TaskDayModel{
 
 export interface ChangeDateModel{
     Id: number;
-    TaskDate: Date;
+    TaskDay: string;
 }

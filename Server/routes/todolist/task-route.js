@@ -1,5 +1,5 @@
 import express from 'express';
-import { CreateTask, DeleteTask, GetAllTasks, GetTaskById, GetTasksByUserId, GetTasksForUserByDate, UpdateTask_Done, UpdateTask_Info, UpdateTask_MoveToDay, UpdateTask_NotDone, UpdateTask_Postponed } from '../../services/index.js';
+import { CreateTask, DeleteTask, GetAllTasks, GetPostponedTasksForUser, GetTaskById, GetTasksByUserId, GetTasksForUserByDate, GetTasksForUserByWeek, UpdateTask_Done, UpdateTask_Info, UpdateTask_MoveToDay, UpdateTask_NotDone, UpdateTask_Postponed } from '../../services/index.js';
 
 const router = express.Router();
 
@@ -9,7 +9,11 @@ router.get('/get-all-by-user/:userId', GetTasksByUserId);
 
 router.get('/get-task-by-date/:userId', GetTasksForUserByDate);
 
+router.get('/get-task-by-week/:userId', GetTasksForUserByWeek);
+
 router.get('/get-task-by-id/:id', GetTaskById);
+
+router.get('/get-postponed-list/:userId', GetPostponedTasksForUser);
 
 router.post('/create-task', CreateTask);
 

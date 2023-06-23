@@ -12,11 +12,18 @@ import { StatusTaskComponent } from './components/status-task/status-task.compon
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule} from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TaskService } from './services/task.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalFormCreateTaskComponent } from './components/modal-form-create-task/modal-form-create-task.component';
+import { ModalChangeTaskDateComponent } from './components/modal-change-task-date/modal-change-task-date.component';
+import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogService } from './services/dialog.service';
+import { PostponedListComponent } from './pages/postponed-list/postponed-list.component';
 
 
 @NgModule({
@@ -27,7 +34,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     InfoComponent,
     TaskButtonComponent,
     TaskDetailComponent,
-    StatusTaskComponent
+    StatusTaskComponent,
+    ModalFormCreateTaskComponent,
+    ModalChangeTaskDateComponent,
+    ConfirmationDialogComponent,
+    PostponedListComponent
   ],
   imports: [
     BrowserModule,
@@ -37,10 +48,19 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,    
-    ToastrModule.forRoot(), NgbModule    
+    ToastrModule.forRoot(
+      {
+        positionClass: 'toast-bottom-right'
+      }
+    ), 
+    NgbModule,  
+    MatTooltipModule,
+    MatButtonModule,
+    MatDialogModule
   ],
   providers: [
-    TaskService,       
+    TaskService,
+    DialogService       
   ],
   bootstrap: [AppComponent]
 })

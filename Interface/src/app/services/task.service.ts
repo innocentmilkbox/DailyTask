@@ -5,6 +5,7 @@ import { BaseResponseModel } from 'src/models/baseResponse.model';
 import { ChangeDateModel, TaskDayModel, TaskModel } from 'src/models/task.model';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import { ETaskStatus } from 'src/models/enums/e-status';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +26,20 @@ export class TaskService {
     return this.http.get<BaseResponseModel<TaskModel[]>>(apiUrl);
   }
 
-  getTasksForUserByDate(userId: number, dateString: string): Observable<BaseResponseModel<TaskDayModel>>{
+  getTasksForUserByDate(userId: number, date: Date): Observable<BaseResponseModel<TaskDayModel>>{
+    const dateString = moment(date).format('YYYY-MM-DD');
     const apiUrl = `${this.baseUrl}/get-task-by-date/${userId}?date=${dateString}`;
     return this.http.get<BaseResponseModel<TaskDayModel>>(apiUrl);
+  }
+
+  getTasksForUserByWeek(userId: number, startDate: string, endDate: string): Observable<BaseResponseModel<TaskModel[]>>{    
+    const apiUrl = `${this.baseUrl}/get-task-by-week/${userId}?startDate=${startDate}&endDate=${endDate}`;
+    return this.http.get<BaseResponseModel<TaskModel[]>>(apiUrl);
+  }
+
+  getPostponedListForUser(userId: number): Observable<BaseResponseModel<TaskModel[]>>{
+    const apiUrl = `${this.baseUrl}/get-postponed-list/${userId}`;
+    return this.http.get<BaseResponseModel<TaskModel[]>>(apiUrl);
   }
 
   getTaskById(id: number): Observable<BaseResponseModel<TaskModel>>{

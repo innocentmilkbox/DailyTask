@@ -2,6 +2,7 @@ import {todoListConnection as sqlConnection} from '../connect.js';
 import sql from 'mssql/msnodesqlv8.js';
 import { GroupTaskByDay, ResponseBase } from '../utils/index.js';
 import {EmptyRecordSet} from '../utils/index.js';
+import moment from 'moment';
 
 export const GetAllTasks = async (req, res, next) => {
     const pool = await sqlConnection;
@@ -31,13 +32,48 @@ export const GetTasksByUserId = async (req, res, next) => {
 
 export const GetTasksForUserByDate = async (req, res, next) => {
     const pool = await sqlConnection;    
-    const queryString = "SELECT * FROM [TASKS] WHERE [UserId] = @userId AND [TASKDAY] = @date";
+    const dateString = new Date(req.query.date).toISOString().substring(0, 10);    
+    const queryString = "SELECT * FROM [TASKS] WHERE [UserId] = @userId AND [TaskDay] = @date";
     return await pool.request()
     .input('userId', sql.Int, req.params.userId)
-    .input('date', sql.Date, req.query.date)
+    .input('date', sql.Date, dateString)
     .query(queryString, (err, data) => {
         if(err == null){
             res.json(ResponseBase(true, GroupTaskByDay(new Date(req.query.date), data.recordset), null));
+        }else{
+            res.json(ResponseBase(false, null, err));
+        }
+    })
+}
+
+export const GetTasksForUserByWeek = async (req, res, next) => {
+    const pool = await sqlConnection;
+    const startDate = moment(req.query.startDate).format('YYYY-MM-DD');
+    const endDate = moment(req.query.endDate).format('YYYY-MM-DD');
+    const userId = req.params.userId;
+    const queryString = "SELECT * FROM [TASKS] WHERE [UserId] = @userId AND [TaskDay] >= @start AND [TaskDay] <= @end";
+    return await pool.request()
+    .input('userId', sql.Int, userId)
+    .input('start', sql.Int, startDate)
+    .input('end', sql.Int, endDate)
+    .query(queryString, (err, data) => {
+        if(err == null){
+            res.json(ResponseBase(true, data.recordset, null));
+        }else{
+            res.json(ResponseBase(false, null, err));
+        }
+    })
+}
+
+export const GetPostponedTasksForUser= async (req, res, next) => {
+    const pool = await sqlConnection;
+    const queryString = "SELECT * FROM [TASKS] WHERE [UserId] = @userId AND [TaskStatus] = @postponedStatus";
+    return await pool.request()
+    .input('userId', sql.Int, req.params.userId)
+    .input('postponedStatus', 2)
+    .query(queryString, (err, data) => {
+        if(err == null){
+            res.json(ResponseBase(true, data.recordset, null));
         }else{
             res.json(ResponseBase(false, null, err));
         }
@@ -143,11 +179,10 @@ export const UpdateTask_Postponed = async (req, res, next) => {
     const {id} = req.params
     const pool = await sqlConnection;
     const queryString = `UPDATE [TASKS] SET 
-    [TaskStatus] = @taskStatus, [IsDone] = @isDone
+    [TaskStatus] = @taskStatus
     WHERE [Id] = @id`;
     return await pool.request()
-    .input('taskStatus', sql.Int , 2)
-    .input('isDone', sql.Bit, 0)    
+    .input('taskStatus', sql.Int , 2)    
     .input('id', sql.Int, id)
     .query(queryString, (err, data) => {
         if(err == null){
@@ -159,10 +194,10 @@ export const UpdateTask_Postponed = async (req, res, next) => {
 }
 
 export const UpdateTask_MoveToDay = async (req, res, next) => {
-    const {Id, TaskDay} = req.body;
+    const {Id, TaskDay} = req.body;    
     const pool = await sqlConnection;
     const queryString = `UPDATE [TASKS] SET 
-    [TaskDay] = @taskDay
+    [TaskDay] = @taskDay, [TaskStatus] = 0
     WHERE [Id] = @id`;
     return await pool.request()
     .input('taskDay', sql.Date , TaskDay)    

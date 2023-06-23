@@ -6,7 +6,9 @@ import { TaskService } from 'src/app/services/task.service';
 import { ToastrService } from 'ngx-toastr';
 import { GetDateByString } from 'src/utils/common-functions';
 import * as moment from 'moment';
-// import {NgbModal} from '@'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalFormCreateTaskComponent } from 'src/app/components/modal-form-create-task/modal-form-create-task.component';
+
 
 @Component({
   selector: 'app-home',
@@ -29,27 +31,46 @@ import * as moment from 'moment';
 })
 export class HomeComponent implements OnInit {
   // data: TaskModel[] | undefined;
-  taskDate: Date | undefined;
+  taskDate = new Date();
   selectedTask: TaskModel | undefined;
-  showDetail = false;
+  showDetail = false;  
+  selectBoxVal = 'byDate'
   @ViewChild('taskTableRef', {static: false}) taskTable!: TaskTableComponent;
 
-  dateStringForInput = new Date().toISOString().substring(0,10);
+  dateStringForInput = moment().format('YYYY-MM-DD');
 
   constructor(
     private taskService: TaskService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal
   ){}
   ngOnInit(): void {
-    
+     
   }
 
-  showDate(target: any){
+  changeDate(target: any){
     this.taskDate = moment(target.value, 'YYYY-MM-DD').toDate();                 
   }
 
-  openCreateForm(){
+  toNextOrPreviousDate(isNext: boolean){
+    if(isNext) this.taskDate = moment(this.taskDate).clone().add(1, 'day').toDate();
+    else this.taskDate = moment(this.taskDate).clone().subtract(1, 'day').toDate();
+    this.dateStringForInput = moment(this.taskDate).format('YYYY-MM-DD');
+  }
 
+  openCreateForm(){
+    const modalRef = this.modalService.open(ModalFormCreateTaskComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.targetDate = this.taskDate;
+    modalRef.result.then((result) => {      
+      this.taskService.createTask(result).subscribe(res => {
+        if(res.success){
+          this.toastr.success('Task created successfully');
+          this.taskTable.reloadTable();
+        }
+      })      
+    }, (reason) => {
+          
+    });
   }
 
   handleOpenTaskDetail(task: TaskModel){
@@ -71,6 +92,7 @@ export class HomeComponent implements OnInit {
   }
 
   handleDetailChange(model: TaskModel){
-    this.taskTable.handleUpdateData(model); 
+    // this.taskTable.handleUpdateData(model); 
+    this.taskTable.reloadTable();
   }
 }

@@ -40,7 +40,9 @@
         <div class="d-flex" >
             <button type="submit" class="btn btn-outline-primary mr-3">Save</button>
             <button type="button" (click)="onClose()" class="btn btn-outline-secondary mr-3">Go Back</button>
-            <button type="button" (click)="onChangeStatus()" class="btn {{taskDetail.TaskStatus == 1 ? 'btn-outline-danger' : 'btn-outline-success'}} mr-3">{{taskDetail.TaskStatus == 1 ? 'Mark As Undone' : 'Mark As Done'}}</button>
+            <button *ngIf="taskDetail.TaskStatus == 0" type="button" (click)="onChangeStatus()" class="btn btn-outline-success mr-3">Mark As Done</button>
+            <button *ngIf="taskDetail.TaskStatus == 1" type="button" (click)="onChangeStatus()" class="btn btn-outline-danger mr-3">Mark As Undone</button>
+            <button *ngIf="taskDetail.TaskStatus == 2" type="button" (click)="onChangeStatus()" class="btn btn-outline-danger mr-3">Un-postponed</button>
         </div>        
     </form>
 </div>

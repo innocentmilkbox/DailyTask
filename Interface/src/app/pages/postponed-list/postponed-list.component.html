@@ -1,0 +1,13 @@
+<div>
+    <div class="row position-relative">
+        <div class="col-11">
+            <app-task-table [isPostponedList]="true" #taskTableRef
+                (openTaskDetail)="handleOpenTaskDetail($event)"></app-task-table>
+        </div>
+        <div id="task-detail-block" [@slideInFromRight]="!showDetail ? 'void' : 'visible'" class="col-6 position-absolute"
+            style="height: 100vh; right: 0px; background-color: white; border-left: 1px solid gray;">
+            <app-task-detail [taskDetail]="selectedTask" (closeDetail)="handleCloseDetail()"
+                (detailChange)="handleDetailChange($event)"></app-task-detail>
+        </div>
+    </div>
+</div>

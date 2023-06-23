@@ -35,12 +35,10 @@ export class TaskDetailComponent implements OnInit, OnChanges {
   onClose(){
     this.closeDetail.emit();
   }
-  ngOnChanges(): void {       
-    console.log(this.taskDetail);    
+  ngOnChanges(): void {             
     if(this.taskDetail != null){
       const date = new Date(this.taskDetail.TaskDay);
-      const dayOfWeek = GetDayOfWeekString(date);
-      console.log(dayOfWeek);
+      const dayOfWeek = GetDayOfWeekString(date);      
       this.dateString = `${dayOfWeek}, ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
     }
   }
@@ -72,7 +70,7 @@ export class TaskDetailComponent implements OnInit, OnChanges {
 
   onChangeStatus(){
     const {Id, Title, UserId, Summary, Note, TaskDay, TaskStatus} = this.taskDetail as TaskModel;
-    let model = new TaskModel(Id, Title, UserId, Summary, Note, TaskDay, TaskStatus != 1 ? 1 : 0);     
+    let model = new TaskModel(Id, Title, UserId, Summary, Note, TaskDay, TaskStatus == 0 ? 1 : 0);     
     this.taskService.updateTaskStatus(model.Id, model.TaskStatus).subscribe(res => {
       if(res.success){
         this.detailChange.emit(model);

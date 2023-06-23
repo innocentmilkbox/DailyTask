@@ -1,0 +1,8 @@
+.nav-arrow{
+    cursor: pointer;
+}
+
+.nav-arrow:hover{
+    transform: scale(1.05);
+    color: green;
+}

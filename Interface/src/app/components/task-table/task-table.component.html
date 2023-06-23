@@ -1,24 +1,47 @@
-<table class="table table-hover table-bordered">
-    <thead>
-        <!-- <th>#</th> -->
-        <th>Task</th>        
-        <th>Action</th>
-    </thead>
-    <tbody *ngIf="data!=undefined">
-        <tr *ngFor="let item of data; let i = index">
-            <!-- <td>
-                <input type="checkbox" [checked]="item.TaskStatus == 1" (change)="onCheck($event.target, item.Id)">
-            </td> -->
-            <td (click)="selectTask(item)" style="cursor: pointer;">
-                <s *ngIf="item.TaskStatus == 1" class="text-success">
-                    <i>{{item.Title}}</i>
-                </s>
-                <div style="font-style: italic; color: gray;" *ngIf="item.TaskStatus == 2">{{item.Title + ' (Postponed)'}}</div>
-                <div *ngIf="item.TaskStatus == 0">{{item.Title}}</div>
-            </td>
-            <td [width]="200">
-                <app-status-task (statusChange)="handleStatusChange($event, item.Id)" [status]="item.TaskStatus"></app-status-task>
-            </td>
-        </tr>        
-    </tbody>
-</table>
+<div *ngIf="!data || data.length == 0; else dataBlock">
+    <i *ngIf="!isPostponedList; else postponedEmptyTitle">There's no task for the day</i>
+    <ng-template #postponedEmptyTitle><i>There's no postponed task</i></ng-template>
+</div>
+<ng-template #dataBlock>
+    <div>
+        <div class="d-flex" *ngIf="!isPostponedList; else summaryPostponed">
+            <i class="mr-3">Total: {{countData.TaskCount}}</i><br>
+            <i class="mr-3">Done: {{countData.DoneCount}}</i><br>
+            <i class="mr-3">Undone: {{countData.UndoneCount}}</i><br>
+            <i class="mr-3">Postponed: {{countData.PostponedCount}}</i><br>
+        </div>
+        <ng-template #summaryPostponed>
+            <div>
+                <i>Total: {{data!.length}}</i>
+            </div>
+        </ng-template>
+    </div>
+    <table class="table table-hover table-bordered mt-3">
+        <thead>
+            <!-- <th>#</th> -->
+            <th>Task</th>  
+            <th *ngIf="showDateCol">Date</th>      
+            <th>Action</th>
+        </thead>
+        <tbody *ngIf="data!=undefined">
+            <tr *ngFor="let item of data; let i = index">
+                <!-- <td>
+                    <input type="checkbox" [checked]="item.TaskStatus == 1" (change)="onCheck($event.target, item.Id)">
+                </td> -->
+                <td (click)="selectTask(item)" style="cursor: pointer;">
+                    <s *ngIf="item.TaskStatus == 1" class="text-success">
+                        <i>{{item.Title}}</i>
+                    </s>
+                    <div style="font-style: italic; color: gray;" *ngIf="item.TaskStatus == 2">{{item.Title + ' (Postponed)'}}</div>
+                    <div *ngIf="item.TaskStatus == 0">{{item.Title}}</div>
+                </td>
+                <td *ngIf="isPostponedList">
+                    {{item.TaskDay | date: 'dd/MM/yyyy'}}
+                </td>
+                <td [width]="200">
+                    <app-status-task (copyTaskToAnotherDate)="handleChangeDateClick(item, true)" (moveTaskToAnotherDate)="handleChangeDateClick(item, false)" (statusChange)="handleStatusChange($event, item.Id)" (removeItem)="handleRemoveItem(item.Id)" [status]="item.TaskStatus"></app-status-task>
+                </td>
+            </tr>        
+        </tbody>
+    </table>
+</ng-template>

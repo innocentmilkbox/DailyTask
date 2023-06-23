@@ -1,0 +1,40 @@
+<div class="modal-header">
+    <h4 class="modal-title">New Task</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <!-- Add your form content here -->
+    <form>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="title">Title</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" name="title" required="required" [(ngModel)]="taskItem.Title">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="summary">Summary</label>
+            <div class="col-sm-10">
+                <textarea rows="8" class="form-control" id="summary" name="summary" [(ngModel)]="taskItem.Summary"></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="note">Note</label>
+            <div class="col-sm-10">
+                <textarea rows="8" class="form-control" id="note" name="note" [(ngModel)]="taskItem.Note"></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="dateString">Note</label>
+            <div class="col-sm-10">
+                <input  style="font-size: 16px; padding: 4px;" type="date" id="dateString" name="dateString" [(ngModel)]="selectedDateStr"/>
+            </div>
+        </div>
+        <!-- Add more form fields as needed -->
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" [disabled]="taskItem.Title == ''" class="btn btn-primary" (click)="submitForm()">Submit</button>
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+</div>
